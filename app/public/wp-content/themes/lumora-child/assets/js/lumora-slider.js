@@ -189,6 +189,31 @@
 			}
 		});
 
+		// Back/forward-cache restore: the document (and this closure's
+		// paused/stopped flags) returns exactly as it left. A manual stop
+		// belonged to the previous visit, frozen timers may never resume,
+		// and pointer state from before is meaningless — so restart cleanly.
+		// Reduced-motion and manual-stop-after-restore still apply through
+		// startAutoplay() and go().
+		window.addEventListener('pageshow', function (e) {
+			if (!e.persisted) {
+				return;
+			}
+			userStopped = false;
+			isHovered = false;
+			cancelHoverResume();
+			stopAutoplay();
+			startAutoplay();
+		});
+
+		// Suspend timers while parked in bfcache so nothing stale survives;
+		// the pageshow handler above restarts on return.
+		window.addEventListener('pagehide', function () {
+			isHovered = false;
+			cancelHoverResume();
+			stopAutoplay();
+		});
+
 		show(0);
 		startAutoplay();
 	}

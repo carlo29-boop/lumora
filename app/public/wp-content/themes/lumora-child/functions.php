@@ -57,6 +57,15 @@ function lumora_child_enqueue_assets() {
 		[ 'lumora-child-style', 'lumora-fonts' ],
 		LUMORA_CHILD_VERSION
 	);
+
+	// Hero slider behaviour (vanilla JS, footer-loaded, no dependencies).
+	wp_enqueue_script(
+		'lumora-slider',
+		get_stylesheet_directory_uri() . '/assets/js/lumora-slider.js',
+		[],
+		LUMORA_CHILD_VERSION,
+		true
+	);
 }
 add_action( 'wp_enqueue_scripts', 'lumora_child_enqueue_assets', 20 );
 

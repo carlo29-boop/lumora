@@ -572,10 +572,141 @@ button:focus-visible,
   }
 }
 
+/* ---------- Hero slider ---------- */
+/* Slides stack in a single grid cell; the active slide fades in.
+   Container is tallest-slide high, so no layout jump between slides. */
+.lumora-slider.e-con {
+  display: grid !important;
+}
+.lumora-slider > .lumora-slide {
+  grid-area: 1 / 1;
+  min-width: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.7s var(--lumora-ease), visibility 0s linear 0.7s;
+  pointer-events: none;
+}
+.lumora-slider > .lumora-slide.is-active {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.7s var(--lumora-ease);
+  pointer-events: auto;
+  z-index: 1;
+}
+/* Controls row: prev / dots / next */
+.lumora-slider-controls {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 4px;
+}
+.lumora-slider-prev,
+.lumora-slider-next {
+  appearance: none;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--lumora-line);
+  background: transparent;
+  color: var(--lumora-ink);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s var(--lumora-ease);
+}
+.lumora-slider-prev:hover,
+.lumora-slider-next:hover {
+  background: var(--lumora-ink);
+  border-color: var(--lumora-ink);
+  color: var(--lumora-white);
+  transform: translateY(-2px);
+}
+.lumora-slider-prev svg,
+.lumora-slider-next svg {
+  width: 18px;
+  height: 18px;
+}
+.lumora-slider-dots {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.lumora-slider-dots button {
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  min-width: 10px;
+  min-height: 10px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--lumora-secondary);
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s var(--lumora-ease);
+}
+.lumora-slider-dots button:hover {
+  border-color: var(--lumora-accent);
+  transform: scale(1.2);
+}
+.lumora-slider-dots button[aria-current="true"] {
+  background: var(--lumora-accent);
+  border-color: var(--lumora-accent);
+}
+/* Editor: no JS runs, keep every slide visible and stacked. */
+body.elementor-editor-active .lumora-slider > .lumora-slide {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+/* ---------- Footer social icons ---------- */
+.lumora-social {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.lumora-social a {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.78) !important;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s var(--lumora-ease);
+}
+.lumora-social a:hover {
+  background: var(--lumora-accent);
+  border-color: var(--lumora-accent);
+  color: #fff !important;
+  transform: translateY(-2px);
+}
+.lumora-social svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+.lumora-sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+  .lumora-slider > .lumora-slide {
+    transition: none;
   }
 }

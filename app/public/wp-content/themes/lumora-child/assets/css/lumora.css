@@ -54,8 +54,19 @@ img {
   font-weight: 600 !important;
   letter-spacing: 0.28em !important;
   text-transform: uppercase !important;
-  color: var(--lumora-accent) !important;
+  /* Darkened bronze for AA contrast on #F4F1EA / #FFFFFF (accent kept for large/decorative use) */
+  color: #7A6248 !important;
   line-height: 1.6 !important;
+}
+/* Paragraph-based eyebrow/price/meta widgets (semantic <p>, zeroed margins) */
+.lumora-eyebrow p,
+.lumora-price p,
+.lumora-meta p,
+.lumora-stat-label p,
+.lumora-copy p,
+.lumora-footer-muted p,
+.lumora-wordmark p {
+  margin: 0 !important;
 }
 
 .lumora-h-display {
@@ -274,6 +285,34 @@ button:focus-visible,
   color: var(--lumora-accent) !important;
 }
 
+/* ---------- Hero polish ---------- */
+.lumora-hero .lumora-eyebrow {
+  margin-bottom: 4px !important;
+}
+.lumora-hero .lumora-h-display {
+  max-width: 12ch;
+}
+.lumora-hero .lumora-lede {
+  margin-top: 4px !important;
+}
+/* Buttons never wrap mid-label */
+.lumora-btn .elementor-button,
+.lumora-btn-outline .elementor-button {
+  white-space: nowrap;
+}
+/* Stats: editorial numerals, tight stack */
+.lumora-stats > .e-con {
+  gap: 4px !important;
+}
+.lumora-stat-num h3,
+.lumora-stat-num p {
+  margin: 0 !important;
+}
+/* Section rhythm: eyebrow-to-heading proximity */
+.lumora-section .lumora-h-section {
+  margin-top: 8px !important;
+}
+
 /* ---------- Responsive refinements ---------- */
 /* 1440px+: cap hero measure, generous whitespace */
 @media (min-width: 1440px) {
@@ -302,8 +341,10 @@ button:focus-visible,
     font-size: clamp(40px, 9vw, 52px) !important;
     line-height: 1.05 !important;
   }
-  .lumora-nav {
-    display: none; /* keep header minimal on small screens; CTA remains */
+  /* keep header minimal on small screens; CTA remains (hide wrapper, not just nav, to avoid dead flex space) */
+  .lumora-nav,
+  .lumora-nav-wrap {
+    display: none !important;
   }
   .lumora-hero-img img {
     aspect-ratio: 4 / 3;
@@ -317,15 +358,29 @@ button:focus-visible,
   .lumora-h-section {
     font-size: 32px !important;
   }
-  .lumora-btn .elementor-button,
-  .lumora-btn-outline .elementor-button {
+  /* Full-width buttons everywhere EXCEPT the sticky header CTA */
+  .lumora-hero .lumora-btn .elementor-button,
+  .lumora-hero .lumora-btn-outline .elementor-button,
+  .lumora-cta .lumora-btn .elementor-button {
     width: 100%;
     text-align: center;
   }
   .lumora-wordmark {
     font-size: 22px !important;
   }
+  /* Compact header CTA on small screens: never wraps, never full-width */
+  .lumora-header .elementor-button {
+    padding: 12px 18px !important;
+    font-size: 11px !important;
+    letter-spacing: 0.12em !important;
+    white-space: nowrap;
+  }
+  .lumora-header.e-con {
+    gap: 12px;
+    padding-inline: 16px !important;
+  }
 }
+
 
 /* ---------- Elementor structural layer (class-driven, robust) ---------- */
 .lumora-wrap.e-con {
@@ -421,16 +476,28 @@ button:focus-visible,
   border-radius: 12px;
   margin: clamp(24px, 4vw, 48px);
   text-align: center;
+  background: radial-gradient(120% 140% at 50% 0%, #2A2823 0%, var(--lumora-ink) 55%) !important;
 }
 .lumora-cta .lumora-btnrow,
 .lumora-cta-title,
-.lumora-cta .lumora-lede {
-  text-align: center;
+.lumora-cta-title h2,
+.lumora-cta .lumora-lede,
+.lumora-cta .lumora-lede p {
+  text-align: center !important;
   margin-inline: auto;
 }
 .lumora-cta .elementor-widget-button {
   display: flex;
   justify-content: center;
+}
+.lumora-btn-accent .elementor-button {
+  background: var(--lumora-accent) !important;
+  border-color: var(--lumora-accent) !important;
+}
+.lumora-btn-accent .elementor-button:hover {
+  background: var(--lumora-white) !important;
+  border-color: var(--lumora-white) !important;
+  color: var(--lumora-ink) !important;
 }
 /* Footer */
 .lumora-footer {

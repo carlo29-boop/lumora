@@ -21,6 +21,7 @@
 
 # --- Dependencies & generated ---
 /app/public/wp-content/plugins/
+/app/public/wp-content/mu-plugins/
 /app/public/wp-content/upgrade/
 /app/public/wp-content/uploads/
 /app/public/wp-content/cache/

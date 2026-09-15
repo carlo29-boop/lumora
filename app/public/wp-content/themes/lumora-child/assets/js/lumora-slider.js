@@ -16,7 +16,10 @@
 	var SWIPE_PX = 40;
 
 	function initSlider(slider) {
-		var slides = Array.prototype.slice.call(slider.querySelectorAll(':scope > .lumora-slide'));
+		// NOTE: slides are NOT direct children — Elementor wraps boxed
+		// container content in an extra .e-con-inner div. A ':scope >'
+		// child selector matches nothing here, so use descendants.
+		var slides = Array.prototype.slice.call(slider.querySelectorAll('.lumora-slide'));
 		if (slides.length < 2) {
 			return;
 		}

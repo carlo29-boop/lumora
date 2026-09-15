@@ -574,11 +574,14 @@ button:focus-visible,
 
 /* ---------- Hero slider ---------- */
 /* Slides stack in a single grid cell; the active slide fades in.
-   Container is tallest-slide high, so no layout jump between slides. */
-.lumora-slider.e-con {
+   Container is tallest-slide high, so no layout jump between slides.
+   NOTE: Elementor wraps boxed-container content in .e-con-inner, so the
+   grid must live on the inner wrapper and selectors must be descendant
+   based — slides are NOT direct children of .lumora-slider. */
+.lumora-slider .e-con-inner {
   display: grid !important;
 }
-.lumora-slider > .lumora-slide {
+.lumora-slider .lumora-slide {
   grid-area: 1 / 1;
   min-width: 0;
   opacity: 0;
@@ -586,12 +589,16 @@ button:focus-visible,
   transition: opacity 0.7s var(--lumora-ease), visibility 0s linear 0.7s;
   pointer-events: none;
 }
-.lumora-slider > .lumora-slide.is-active {
+.lumora-slider .lumora-slide.is-active {
   opacity: 1;
   visibility: visible;
   transition: opacity 0.7s var(--lumora-ease);
   pointer-events: auto;
   z-index: 1;
+}
+/* Controls row spans the full grid width below the stacked slides. */
+.lumora-slider .e-con-inner > :not(.lumora-slide) {
+  grid-column: 1 / -1;
 }
 /* Controls row: prev / dots / next */
 .lumora-slider-controls {
@@ -655,7 +662,10 @@ button:focus-visible,
   border-color: var(--lumora-accent);
 }
 /* Editor: no JS runs, keep every slide visible and stacked. */
-body.elementor-editor-active .lumora-slider > .lumora-slide {
+body.elementor-editor-active .lumora-slider .e-con-inner {
+  display: block !important;
+}
+body.elementor-editor-active .lumora-slider .lumora-slide {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;

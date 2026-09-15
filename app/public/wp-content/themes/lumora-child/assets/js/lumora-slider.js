@@ -4,15 +4,18 @@
    - .lumora-slider  : slider region (Elementor container)
    - .lumora-slide   : individual slides (Elementor containers)
    - .lumora-slider-prev / .lumora-slider-next / [data-slider-dot]
-   Behaviour: fade rotation every 5.5s, pause on hover/focus,
-   stop after manual navigation, keyboard arrows, touch swipe,
-   full ARIA wiring, autoplay disabled for prefers-reduced-motion
-   and inside the Elementor editor (slides stay stacked there).
+   Behaviour: fade rotation every 5.5s; pause on hover/focus with
+   resume on leave; a hovered-but-idle slider resumes after
+   HOVER_IDLE_RESUME_MS without pointer movement; manual navigation
+   stops rotation; keyboard arrows, touch swipe, full ARIA wiring;
+   autoplay disabled for prefers-reduced-motion and inside the
+   Elementor editor (slides stay stacked there).
    ============================================================ */
 (function () {
 	'use strict';
 
 	var AUTOPLAY_MS = 5500;
+	var HOVER_IDLE_RESUME_MS = 8000;
 	var SWIPE_PX = 40;
 
 	function initSlider(slider) {
@@ -108,9 +111,43 @@
 			});
 		});
 
-		// Pause while hovered or focused, resume on leave.
-		slider.addEventListener('pointerenter', stopAutoplay);
-		slider.addEventListener('pointerleave', startAutoplay);
+		// Pause while hovered or focused, resume on leave. A cursor left
+		// parked motionless over the slider still counts as idle: after
+		// HOVER_IDLE_RESUME_MS without pointer movement, rotation resumes.
+		// Any pointer movement re-pauses and restarts the idle clock.
+		var hoverTimer = null;
+		var isHovered = false;
+
+		function cancelHoverResume() {
+			if (hoverTimer) {
+				window.clearTimeout(hoverTimer);
+				hoverTimer = null;
+			}
+		}
+
+		function pauseForHover() {
+			stopAutoplay();
+			cancelHoverResume();
+			hoverTimer = window.setTimeout(function () {
+				hoverTimer = null;
+				startAutoplay();
+			}, HOVER_IDLE_RESUME_MS);
+		}
+
+		slider.addEventListener('pointerenter', function () {
+			isHovered = true;
+			pauseForHover();
+		});
+		slider.addEventListener('pointermove', function () {
+			if (isHovered) {
+				pauseForHover();
+			}
+		});
+		slider.addEventListener('pointerleave', function () {
+			isHovered = false;
+			cancelHoverResume();
+			startAutoplay();
+		});
 		slider.addEventListener('focusin', stopAutoplay);
 		slider.addEventListener('focusout', startAutoplay);
 

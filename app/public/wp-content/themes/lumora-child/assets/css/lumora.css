@@ -257,10 +257,14 @@ button:focus-visible,
 }
 
 /* ---------- Header: sticky, blurred ---------- */
-.lumora-header {
-  position: sticky;
-  top: 0;
+/* Doubled class + !important: Elementor container rules
+   (.e-con) otherwise override position back to relative. */
+.lumora-header.lumora-header {
+  position: sticky !important;
+  top: 0 !important;
   z-index: 50;
+}
+.lumora-header {
   background: rgba(244, 241, 234, 0.88) !important;
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
@@ -471,12 +475,15 @@ button:focus-visible,
   display: flex;
   justify-content: center;
 }
-/* CTA */
+/* CTA — flat ink only. NOTE: no background-image gradient here on purpose:
+   Elementor lazy-loads below-fold containers and force-strips
+   background-image (!important) until scrolled into view, which would
+   make a gradient pop in late. The flat #1C1B18 comes from the section
+   settings with the var() fallback below. */
 .lumora-cta {
   border-radius: 12px;
   margin: clamp(24px, 4vw, 48px);
   text-align: center;
-  background: radial-gradient(120% 140% at 50% 0%, #2A2823 0%, var(--lumora-ink) 55%) !important;
 }
 .lumora-cta .lumora-btnrow,
 .lumora-cta-title,
@@ -580,6 +587,9 @@ button:focus-visible,
    based — slides are NOT direct children of .lumora-slider. */
 .lumora-slider .e-con-inner {
   display: grid !important;
+  /* Explicit track: implicit auto tracks shrink-to-fit slide content
+     instead of filling the container. */
+  grid-template-columns: minmax(0, 1fr);
 }
 .lumora-slider .lumora-slide {
   grid-area: 1 / 1;
@@ -716,7 +726,295 @@ body.elementor-editor-active .lumora-slider .lumora-slide {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
-  .lumora-slider > .lumora-slide {
+  .lumora-slider .lumora-slide {
     transition: none;
+  }
+}
+
+/* ============================================================
+   ELEVATION PASS — cinematic hero, dark editorial, rhythm
+   ============================================================ */
+
+/* Elementor writes heading color directly onto .elementor-heading-title
+   from Kit globals inside post-*.css (enqueued AFTER theme CSS), which
+   defeats color inheritance from our wrapper classes. Re-assert
+   inheritance so the brand palette below actually applies. */
+.elementor-widget-heading .elementor-heading-title {
+  color: inherit !important;
+}
+
+/* ---------- Cinematic hero: type set over image ---------- */
+.lumora-hero {
+  padding-block: clamp(28px, 4vw, 56px) clamp(48px, 5vw, 72px) !important;
+}
+.lumora-slider .lumora-slide {
+  position: relative;
+  justify-content: flex-end !important;
+  min-height: clamp(560px, 78vh, 780px);
+  padding: clamp(30px, 4.5vw, 60px) !important;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--lumora-ink);
+}
+.lumora-slide .lumora-hero-img {
+  position: absolute !important;
+  inset: 0;
+  z-index: 0;
+  margin: 0 !important;
+}
+.lumora-slide .lumora-hero-img img {
+  width: 100% !important;
+  height: 100% !important;
+  aspect-ratio: auto !important;
+  object-fit: cover;
+  border-radius: 0 !important;
+  filter: saturate(0.92) contrast(1.04) brightness(0.96);
+}
+/* Readability scrim — darker toward the text at the bottom. */
+.lumora-slide::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg,
+    rgba(20, 19, 16, 0.22) 0%,
+    rgba(20, 19, 16, 0.06) 32%,
+    rgba(20, 19, 16, 0.38) 62%,
+    rgba(20, 19, 16, 0.78) 100%);
+}
+.lumora-slide > *:not(.lumora-hero-img) {
+  position: relative;
+  z-index: 2;
+}
+/* On-image typography: warm light on dark. */
+.lumora-slide .lumora-eyebrow {
+  color: #C9AE8C !important;
+}
+.lumora-slide .lumora-h-display {
+  color: #FFFFFF !important;
+  font-size: clamp(54px, 7.2vw, 106px) !important;
+  line-height: 1.0 !important;
+  max-width: 14ch;
+}
+.lumora-slide .lumora-lede,
+.lumora-slide .lumora-lede p {
+  color: rgba(255, 255, 255, 0.86) !important;
+  font-size: clamp(16px, 1.5vw, 19px) !important;
+}
+/* On-image buttons: warm solid + ghost. */
+.lumora-slide .lumora-btn .elementor-button {
+  background: var(--lumora-accent) !important;
+  border-color: var(--lumora-accent) !important;
+  color: #fff !important;
+}
+.lumora-slide .lumora-btn .elementor-button:hover {
+  background: #FFFFFF !important;
+  border-color: #FFFFFF !important;
+  color: var(--lumora-ink) !important;
+}
+.lumora-slide .lumora-btn-outline .elementor-button {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.55) !important;
+  color: #FFFFFF !important;
+}
+.lumora-slide .lumora-btn-outline .elementor-button:hover {
+  background: #FFFFFF !important;
+  border-color: #FFFFFF !important;
+  color: var(--lumora-ink) !important;
+}
+/* Editorial slider furniture: 01 / 03 counter, dots, arrows. */
+.lumora-slider-controls {
+  margin-top: 22px;
+}
+.lumora-slider-count {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  font-family: var(--lumora-sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--lumora-secondary);
+  margin-right: auto;
+}
+.lumora-slider-count [data-slider-current] {
+  font-family: var(--lumora-serif);
+  font-weight: 500;
+  font-size: 32px;
+  letter-spacing: 0.02em;
+  color: var(--lumora-ink);
+  min-width: 1.6em;
+}
+.lumora-slider-dots {
+  margin-left: 0;
+}
+
+/* ---------- Dark editorial (About) ---------- */
+.lumora-dark .lumora-eyebrow {
+  color: #C9AE8C !important;
+}
+.lumora-dark .lumora-h-section {
+  color: #FFFFFF !important;
+}
+.lumora-dark .lumora-lede,
+.lumora-dark .lumora-lede p,
+.lumora-dark .lumora-body,
+.lumora-dark .lumora-body p {
+  color: rgba(255, 255, 255, 0.74) !important;
+}
+.lumora-dark .lumora-stat-num {
+  color: #FFFFFF !important;
+  font-size: clamp(46px, 4.6vw, 66px) !important;
+}
+.lumora-dark .lumora-stat-label,
+.lumora-dark .lumora-stat-label p {
+  color: rgba(201, 174, 140, 0.9) !important;
+}
+.lumora-dark .lumora-stats > .e-con {
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  padding-top: 26px !important;
+  margin-top: 14px;
+}
+/* Offset bronze frame around the dark-section image. */
+.lumora-dark .lumora-card-img {
+  position: relative;
+}
+.lumora-dark .lumora-card-img::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translate(20px, 20px);
+  border: 1px solid rgba(164, 134, 98, 0.55);
+  border-radius: 4px;
+  pointer-events: none;
+}
+.lumora-dark .lumora-card-img img {
+  position: relative;
+  border-radius: 4px;
+}
+
+/* ---------- Featured collection: premium listings ---------- */
+.lumora-props-grid .lumora-card {
+  border-radius: 8px;
+  padding: 14px 14px 26px !important;
+}
+.lumora-props-grid .lumora-card .elementor-widget-image img {
+  border-radius: 5px;
+}
+.lumora-props-grid .lumora-card:hover .elementor-widget-image img {
+  transform: scale(1.02);
+}
+.lumora-props-grid .lumora-meta p::before {
+  content: "";
+  display: inline-block;
+  width: 24px;
+  height: 1px;
+  background: var(--lumora-accent);
+  vertical-align: middle;
+  margin-right: 12px;
+}
+.lumora-props-grid .lumora-price {
+  font-size: 26px !important;
+  letter-spacing: 0.01em !important;
+}
+
+/* ---------- Why LUMORA: editorial ledger, not cards ---------- */
+.lumora-why {
+  background: transparent !important;
+  border: none !important;
+  border-top: 1px solid var(--lumora-line) !important;
+  border-radius: 0 !important;
+  padding: 30px 4px 10px !important;
+}
+.lumora-why-grid {
+  align-items: start;
+}
+.lumora-why .lumora-meta p {
+  font-family: var(--lumora-serif) !important;
+  font-weight: 500 !important;
+  font-size: clamp(52px, 4.4vw, 68px) !important;
+  line-height: 1 !important;
+  letter-spacing: 0 !important;
+  color: var(--lumora-accent) !important;
+  opacity: 0.9;
+}
+
+/* ---------- Insights: magazine treatment ---------- */
+.lumora-insights-grid {
+  counter-reset: lumora-insight;
+}
+.lumora-insights-grid .lumora-card {
+  counter-increment: lumora-insight;
+}
+.lumora-insights-grid .lumora-h-card::before {
+  content: "0" counter(lumora-insight);
+  display: block;
+  font-family: var(--lumora-sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  color: var(--lumora-accent);
+  margin-bottom: 12px;
+}
+@media (min-width: 1025px) {
+  .lumora-insights-grid {
+    grid-template-columns: 1.18fr 1fr 1fr;
+  }
+}
+
+/* ---------- Header: scrolled elevation ---------- */
+.lumora-header {
+  transition: box-shadow 0.35s ease, background-color 0.35s ease;
+}
+.lumora-header.is-scrolled {
+  box-shadow: 0 14px 34px -22px rgba(28, 27, 24, 0.4);
+  background: rgba(244, 241, 234, 0.96) !important;
+}
+
+/* ---------- CTA panel: bronze hairline ---------- */
+.lumora-cta {
+  border: 1px solid rgba(164, 134, 98, 0.35);
+}
+
+/* ---------- Footer: conclusion of the story ---------- */
+.lumora-footer {
+  padding-block: clamp(72px, 8vw, 110px) 36px !important;
+}
+.lumora-footer .lumora-wordmark,
+.lumora-footer-word {
+  font-size: clamp(30px, 3.4vw, 44px) !important;
+}
+.lumora-footer-top {
+  padding-bottom: 44px;
+}
+.lumora-social a {
+  width: 42px;
+  height: 42px;
+}
+
+/* ---------- Elevation responsive ---------- */
+@media (max-width: 1024px) {
+  .lumora-slider .lumora-slide {
+    min-height: 620px;
+  }
+  .lumora-slide .lumora-h-display {
+    font-size: clamp(48px, 8vw, 72px) !important;
+  }
+}
+@media (max-width: 768px) {
+  .lumora-slider .lumora-slide {
+    min-height: 560px;
+    padding: 26px 22px !important;
+    border-radius: 10px;
+  }
+  .lumora-slide .lumora-h-display {
+    font-size: clamp(40px, 11.5vw, 54px) !important;
+  }
+  .lumora-dark .lumora-card-img::after {
+    transform: translate(12px, 12px);
+  }
+  .lumora-slider-count [data-slider-current] {
+    font-size: 26px;
   }
 }

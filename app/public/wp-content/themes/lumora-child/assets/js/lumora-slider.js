@@ -64,6 +64,11 @@
 					dot.removeAttribute('aria-current');
 				}
 			});
+			var counter = slider.querySelector('[data-slider-current]');
+			if (counter) {
+				var n = current + 1;
+				counter.textContent = (n < 10 ? '0' : '') + n;
+			}
 			if (focusSlide) {
 				slides[current].setAttribute('tabindex', '-1');
 				slides[current].focus({ preventScroll: true });
@@ -226,7 +231,21 @@
 		}
 	}
 
+	// Subtle header elevation once the page scrolls.
+	function initHeaderState() {
+		var header = document.querySelector('.lumora-header');
+		if (!header) {
+			return;
+		}
+		function onScroll() {
+			header.classList.toggle('is-scrolled', window.pageYOffset > 24);
+		}
+		window.addEventListener('scroll', onScroll, { passive: true });
+		onScroll();
+	}
+
 	ready(function () {
+		initHeaderState();
 		// Inside the Elementor editor keep slides stacked and static.
 		if (document.body.classList.contains('elementor-editor-active')) {
 			return;

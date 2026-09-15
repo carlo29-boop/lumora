@@ -40,6 +40,12 @@ vendor/
 .DS_Store
 Thumbs.db
 
+# --- Local / WP silence files (not project code) ---
+/app/public/local-xdebuginfo.php
+/app/public/wp-content/index.php
+/app/public/wp-content/themes/index.php
+/app/public/wp-content/plugins/index.php
+
 # --- Elementor / editor caches ---
 **/elementor/css/
 **/.elementor/

@@ -1,0 +1,514 @@
+/* ============================================================
+   LUMORA — Premium Editorial Real Estate
+   Child-theme brand layer. Layout is built in Elementor Free
+   (Containers only, Canvas template). This file provides:
+   tokens, typography refinement, spacing, hovers, buttons,
+   image treatments, focus states, responsive fixes, overflow guard.
+   ============================================================ */
+
+:root {
+  --lumora-ink: #1C1B18;
+  --lumora-secondary: #716D64;
+  --lumora-text: #3F3C36;
+  --lumora-accent: #A48662;
+  --lumora-bg: #F4F1EA;
+  --lumora-white: #FFFFFF;
+  --lumora-line: rgba(28, 27, 24, 0.12);
+  --lumora-serif: "Cormorant Garamond", "Times New Roman", Georgia, serif;
+  --lumora-sans: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --lumora-max: 1200px;
+  --lumora-radius: 2px;
+  --lumora-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---------- Overflow protection (no horizontal scroll) ---------- */
+html, body {
+  overflow-x: clip;
+  background: var(--lumora-bg);
+}
+body {
+  font-family: var(--lumora-sans);
+  color: var(--lumora-text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img {
+  max-width: 100%;
+  height: auto;
+}
+.elementor-widget-image img {
+  display: block;
+}
+
+/* Elementor Canvas reset: remove default margins on full-bleed page */
+.page-template-elementor_canvas .entry-title,
+.page-template-elementor_canvas .page-title {
+  display: none;
+}
+
+/* ---------- Typography refinement ---------- */
+.lumora-eyebrow,
+.eyebrow {
+  font-family: var(--lumora-sans) !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.28em !important;
+  text-transform: uppercase !important;
+  color: var(--lumora-accent) !important;
+  line-height: 1.6 !important;
+}
+
+.lumora-h-display {
+  font-family: var(--lumora-serif) !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.01em !important;
+  line-height: 1.02 !important;
+  color: var(--lumora-ink) !important;
+  text-wrap: balance;
+}
+
+.lumora-h-section {
+  font-family: var(--lumora-serif) !important;
+  font-weight: 500 !important;
+  line-height: 1.08 !important;
+  letter-spacing: -0.005em !important;
+  color: var(--lumora-ink) !important;
+  text-wrap: balance;
+}
+
+.lumora-lede {
+  font-size: clamp(16px, 1.6vw, 19px) !important;
+  line-height: 1.7 !important;
+  color: var(--lumora-text) !important;
+  max-width: 52ch;
+}
+
+.lumora-small {
+  font-size: 13px !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  color: var(--lumora-secondary) !important;
+}
+
+/* Nav links: editorial tracking */
+.lumora-nav a {
+  font-family: var(--lumora-sans) !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  color: var(--lumora-ink) !important;
+  text-decoration: none !important;
+  position: relative;
+  transition: color 0.25s var(--lumora-ease);
+}
+.lumora-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  height: 1px;
+  width: 100%;
+  background: var(--lumora-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s var(--lumora-ease);
+}
+.lumora-nav a:hover {
+  color: var(--lumora-accent) !important;
+}
+.lumora-nav a:hover::after {
+  transform: scaleX(1);
+}
+
+/* ---------- Buttons ---------- */
+.lumora-btn,
+.lumora-btn-outline {
+  transition: transform 0.3s var(--lumora-ease), box-shadow 0.3s var(--lumora-ease), background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease !important;
+  will-change: transform;
+}
+.lumora-btn .elementor-button,
+a.lumora-btn {
+  background: var(--lumora-ink) !important;
+  color: var(--lumora-white) !important;
+  border: 1px solid var(--lumora-ink) !important;
+  border-radius: var(--lumora-radius) !important;
+  letter-spacing: 0.16em !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  padding: 16px 32px !important;
+}
+.lumora-btn .elementor-button:hover,
+a.lumora-btn:hover {
+  background: var(--lumora-accent) !important;
+  border-color: var(--lumora-accent) !important;
+  color: #fff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px -14px rgba(28, 27, 24, 0.45);
+}
+.lumora-btn-outline .elementor-button,
+a.lumora-btn-outline {
+  background: transparent !important;
+  color: var(--lumora-ink) !important;
+  border: 1px solid var(--lumora-line) !important;
+  border-radius: var(--lumora-radius) !important;
+  letter-spacing: 0.16em !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  padding: 16px 32px !important;
+}
+.lumora-btn-outline .elementor-button:hover,
+a.lumora-btn-outline:hover {
+  border-color: var(--lumora-ink) !important;
+  background: var(--lumora-ink) !important;
+  color: #fff !important;
+  transform: translateY(-2px);
+}
+
+/* ---------- Cards: property + insights ---------- */
+.lumora-card {
+  background: var(--lumora-white);
+  border: 1px solid rgba(28, 27, 24, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: transform 0.4s var(--lumora-ease), box-shadow 0.4s var(--lumora-ease);
+}
+.lumora-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 30px 60px -30px rgba(28, 27, 24, 0.35);
+}
+.lumora-card .elementor-widget-image img {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  width: 100%;
+  filter: saturate(0.92) contrast(1.02);
+  transition: transform 0.8s var(--lumora-ease), filter 0.5s ease;
+}
+.lumora-card:hover .elementor-widget-image img {
+  transform: scale(1.04);
+  filter: saturate(1) contrast(1.03);
+}
+.lumora-price {
+  font-family: var(--lumora-serif) !important;
+  font-size: 24px !important;
+  color: var(--lumora-ink) !important;
+}
+.lumora-meta {
+  color: var(--lumora-secondary) !important;
+  font-size: 13px !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+}
+
+/* Subtle hairline dividers */
+.lumora-rule {
+  height: 1px;
+  background: var(--lumora-line);
+}
+
+/* Hero image treatment: cinematic, warm */
+.lumora-hero-img img {
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  width: 100%;
+  border-radius: 4px;
+  filter: saturate(0.94) contrast(1.03) brightness(0.99);
+}
+/* Dark CTA panel */
+.lumora-cta {
+  background: var(--lumora-ink) !important;
+}
+.lumora-cta .lumora-h-section {
+  color: var(--lumora-white) !important;
+}
+
+/* Stats */
+.lumora-stat-num {
+  font-family: var(--lumora-serif) !important;
+  font-size: clamp(38px, 4vw, 56px) !important;
+  line-height: 1 !important;
+  color: var(--lumora-ink) !important;
+}
+.lumora-stat-label {
+  font-size: 12px !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
+  color: var(--lumora-secondary) !important;
+}
+
+/* ---------- Focus states (accessibility) ---------- */
+a:focus-visible,
+button:focus-visible,
+.elementor-button:focus-visible {
+  outline: 2px solid var(--lumora-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ---------- Header: sticky, blurred ---------- */
+.lumora-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(244, 241, 234, 0.88) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(28, 27, 24, 0.08);
+}
+.lumora-wordmark {
+  font-family: var(--lumora-serif) !important;
+  font-size: 26px !important;
+  letter-spacing: 0.32em !important;
+  font-weight: 600 !important;
+  color: var(--lumora-ink) !important;
+  text-indent: 0.32em; /* optical centre for tracked caps */
+}
+
+/* Footer links */
+.lumora-footer a {
+  color: rgba(255, 255, 255, 0.72) !important;
+  text-decoration: none !important;
+  transition: color 0.25s ease;
+}
+.lumora-footer a:hover {
+  color: var(--lumora-accent) !important;
+}
+
+/* ---------- Responsive refinements ---------- */
+/* 1440px+: cap hero measure, generous whitespace */
+@media (min-width: 1440px) {
+  .lumora-h-display {
+    font-size: 88px !important;
+  }
+}
+/* 1200px */
+@media (max-width: 1200px) {
+  .lumora-h-display {
+    font-size: clamp(48px, 6vw, 72px) !important;
+  }
+}
+/* Tablet landscape 1024px */
+@media (max-width: 1024px) {
+  .lumora-h-display {
+    font-size: clamp(44px, 6.5vw, 60px) !important;
+  }
+  .lumora-hero-img img {
+    aspect-ratio: 16 / 11;
+  }
+}
+/* Tablet portrait 768px */
+@media (max-width: 768px) {
+  .lumora-h-display {
+    font-size: clamp(40px, 9vw, 52px) !important;
+    line-height: 1.05 !important;
+  }
+  .lumora-nav {
+    display: none; /* keep header minimal on small screens; CTA remains */
+  }
+  .lumora-hero-img img {
+    aspect-ratio: 4 / 3;
+  }
+}
+/* Mobile 390px / 375px */
+@media (max-width: 480px) {
+  .lumora-h-display {
+    font-size: 42px !important;
+  }
+  .lumora-h-section {
+    font-size: 32px !important;
+  }
+  .lumora-btn .elementor-button,
+  .lumora-btn-outline .elementor-button {
+    width: 100%;
+    text-align: center;
+  }
+  .lumora-wordmark {
+    font-size: 22px !important;
+  }
+}
+
+/* ---------- Elementor structural layer (class-driven, robust) ---------- */
+.lumora-wrap.e-con {
+  --content-width: var(--lumora-max);
+  max-width: 100%;
+  margin-inline: auto;
+  padding-inline: clamp(20px, 4vw, 48px);
+}
+.lumora-section {
+  padding-block: clamp(64px, 8vw, 120px) !important;
+}
+.lumora-hero {
+  padding-block: clamp(48px, 6vw, 96px) clamp(64px, 7vw, 110px) !important;
+}
+/* Grids: real CSS grid so layout holds even if a widget setting is ignored */
+.lumora-grid-3 {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  width: 100%;
+}
+.lumora-grid-3 > .e-con {
+  min-width: 0;
+}
+.lumora-grid-2 {
+  display: grid !important;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: clamp(28px, 4vw, 64px);
+  align-items: center;
+  width: 100%;
+}
+.lumora-grid-2 > .e-con {
+  min-width: 0;
+}
+.lumora-btnrow {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.lumora-stats {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 8px;
+}
+.lumora-h-card {
+  font-family: var(--lumora-serif) !important;
+  font-size: 26px !important;
+  line-height: 1.2 !important;
+  color: var(--lumora-ink) !important;
+  font-weight: 500 !important;
+}
+.lumora-body {
+  color: var(--lumora-text) !important;
+  line-height: 1.7 !important;
+  font-size: 15.5px !important;
+}
+.lumora-why {
+  background: var(--lumora-bg);
+  border: 1px solid rgba(28, 27, 24, 0.08);
+  border-radius: 4px;
+  padding: 28px !important;
+}
+.lumora-card {
+  padding: 18px 18px 24px !important;
+}
+.lumora-card-img img,
+.lumora-hero-img img {
+  border-radius: 4px;
+}
+.lumora-card-img img {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  width: 100%;
+}
+/* Header inner layout */
+.lumora-header .lumora-wrap,
+.lumora-header.e-con {
+  padding-block: 18px !important;
+}
+.lumora-nav {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+}
+.lumora-nav-wrap {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+/* CTA */
+.lumora-cta {
+  border-radius: 12px;
+  margin: clamp(24px, 4vw, 48px);
+  text-align: center;
+}
+.lumora-cta .lumora-btnrow,
+.lumora-cta-title,
+.lumora-cta .lumora-lede {
+  text-align: center;
+  margin-inline: auto;
+}
+.lumora-cta .elementor-widget-button {
+  display: flex;
+  justify-content: center;
+}
+/* Footer */
+.lumora-footer {
+  color: #fff !important;
+  padding-block: clamp(56px, 6vw, 88px) 32px !important;
+}
+.lumora-footer .lumora-wordmark,
+.lumora-footer-word {
+  color: #fff !important;
+}
+.lumora-footer-muted,
+.lumora-footer-muted p {
+  color: rgba(255, 255, 255, 0.66) !important;
+  line-height: 1.7 !important;
+  font-size: 14.5px !important;
+}
+.lumora-footer-h {
+  color: var(--lumora-accent) !important;
+  margin-bottom: 4px !important;
+}
+.lumora-footer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.lumora-footer-top {
+  display: grid !important;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 32px;
+  width: 100%;
+  padding-bottom: 36px;
+}
+.lumora-rule-dark {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.14);
+  margin: 8px 0 20px;
+}
+.lumora-copy,
+.lumora-copy p {
+  color: rgba(255, 255, 255, 0.55) !important;
+  font-size: 13px !important;
+  letter-spacing: 0.04em !important;
+  text-align: center;
+}
+/* Tablet */
+@media (max-width: 1024px) {
+  .lumora-grid-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .lumora-grid-3 > .e-con:last-child {
+    grid-column: 1 / -1;
+  }
+  .lumora-footer-top {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 768px) {
+  .lumora-grid-2 {
+    grid-template-columns: 1fr;
+  }
+  .lumora-grid-3 {
+    grid-template-columns: 1fr;
+  }
+  .lumora-grid-3 > .e-con:last-child {
+    grid-column: auto;
+  }
+  .lumora-footer-top {
+    grid-template-columns: 1fr;
+  }
+  .lumora-cta {
+    margin: 16px;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

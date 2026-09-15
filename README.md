@@ -1,6 +1,6 @@
 # LUMORA — Premium Real Estate Landing Page
 
-Senior Developer assessment: a single modern, editorial real-estate landing page built with **WordPress + Elementor Free** (no Pro, no kits, no premade templates, no addon plugins).
+A modern, editorial real-estate landing page built with WordPress and Elementor Free, focused on refined visual design, responsive layouts, accessibility, and maintainable implementation.
 
 ## Stack (verified local)
 
